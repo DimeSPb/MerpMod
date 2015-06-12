@@ -18,6 +18,7 @@
 //		HACK CONFIGURATION	//
 //////////////////////////////
 							//
+#define WGDC_MAIN_HOOK 1	//
 #define MEMORY_HACKS 1		//
 #define VIN_HACKS 0			//
 #define VIN_TEST_LOG 0		//
@@ -28,19 +29,26 @@
 #define PROG_MODE 1			//
 #define SPARK_HACKS 0		//
 #define CEL_HACKS 1			//
+#define SHIFTLIGHT_HACKS 1		//
+#define ALS_HACKS 1		//
 #define BOOST_HACKS 1		//
 #define TIMING_HACKS 1		//
 #define POLF_HACKS 1		//	
 #define PGWG_HACKS 1		//
 #define INJECTOR_HACKS 1	//
-							//
+#define RAM_HOLE_SCANNER 0	//
+#define PORT_LOGGER 0		//
+#define MPG_HACKS 1		//
+#define SSM_HACKS 1		//
+#define ALS_RAMTUNING 0		//
+					//
 //////////////////////////////
 							
 //////////////////////////////
 //		RAMTUNING FLAGS		//
 //////////////////////////////
 							//
-#define RAM_PERSIST 0		//
+#define RAM_PERSIST 1		//
 #define VE_RAMTUNING 0		//
 #define POLF_RAMTUNING 0	//
 #define TIMING_RAMTUNING 0	//

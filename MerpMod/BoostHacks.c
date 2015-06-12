@@ -18,18 +18,18 @@
 
 //Defines the function pointer to the existing WGDC Pull routine
 float (*WGDCHooked)() __attribute__ ((section ("RomHole_Functions"))) = (float(*)()) sWgdc;
+float (*DutyCycleOut)(int WGDCData) __attribute__ ((section ("RomHole_Functions"))) = (float(*)()) sDutyCycleOut;
+float (*DutyCycleOEM)() __attribute__ ((section ("RomHole_Functions"))) = (float(*)()) sDutyCycleOut;
 
 void WGDCHack()
 {
 
-#if WGDC_MAIN_HOOK
 EcuHacksMain();
-#endif
 
 #if BOOST_HACKS	
 
 	//Calculated gear is a BYTE!
-	float cgear = (char)*pCurrentGear;
+	float cgear = (unsigned char)*pCurrentGear;
 	float PGWGComp;
 	float WGDCInitial;
 	float WGDCMax;
@@ -76,33 +76,14 @@ EcuHacksMain();
 		}
 	#endif
 	
-	pRamVariables->PGWGComp = PGWGComp;
-	
-	if(pRamVariables->BoostHackEnabled == 0x01)
-	{
-		#if WGDC_LOCK
-		//Apply locks
-		if(*pEngineSpeed < RPMLockWGDC && *pThrottlePlate > ThrottleLockWGDC)
-		{
-			pRamVariables->WGDCInitial = 100.0;
-			pRamVariables->WGDCMax = 100.0;
-		}
-		else{
-		#endif
-	
-		pRamVariables->WGDCInitial = WGDCInitial * PGWGComp;
-		pRamVariables->WGDCMax = WGDCMax * PGWGComp;
-		
-		#if WGDC_LOCK
-		}
-		#endif
+	pRamVariables->PGWGComp = PGWGComp;	
+	pRamVariables->WGDCInitial = WGDCInitial * PGWGComp;
+	pRamVariables->WGDCMax = WGDCMax * PGWGComp;
+
+	#if WGDC_LOCK
 	}
-	else
-	{
-		pRamVariables->WGDCInitial = Pull3DHooked((void*)OEMWGDCInitialTable, *pReqTorque, *pEngineSpeed);
-		pRamVariables->WGDCMax = Pull3DHooked((void*)OEMWGDCMaxTable, *pReqTorque, *pEngineSpeed);	
-	}
-		
+	#endif
+	
 #endif
 
 	//Finish Pulling WGDC
@@ -117,7 +98,7 @@ EcuHacksMain();
 void TargetBoostHack()
 {
 		//Calculated gear is a BYTE!
-	float cgear = (char)*pCurrentGear;
+	float cgear = (unsigned char)*pCurrentGear;
 	float PGTBComp;
 	float TargetBoost;
 
@@ -161,13 +142,42 @@ void TargetBoostHack()
 	#endif
 	
 	pRamVariables->PGTBComp = PGTBComp;
-	
-	if(pRamVariables->BoostHackEnabled == 0x01)
-		pRamVariables->TargetBoost = TargetBoost * PGTBComp;
-	else
-		pRamVariables->TargetBoost = Pull3DHooked((void*)OEMTargetBoostTable, *pReqTorque, *pEngineSpeed);	
-		
-	
+
+	#if ALS_HACKS
+		if (pRamVariables->ALSActive == 2 || pRamVariables->ALSActive == 4 || pRamVariables->ALSActive == 5)
+		{
+			pRamVariables->TargetBoost = DefaultALSBoostLimit;
+		}
+/*		else if (pRamVariables->DriveMode < 3) // No boost error in econ mode
+		{
+			pRamVariables->TargetBoost = *pCurrentBoost16bit; //BoostTarget(PSIrelativesealevel) = scalar
+		}
+*/		else
+		{
+	#endif
+			pRamVariables->TargetBoost = TargetBoost * PGTBComp;
+	#if ALS_HACKS
+		}
+	#endif
 }
+
+void WGDCalt()
+	{
+		int WGDCData;
+		float DutyScale = 65536.0f;
+		if (pRamVariables->ALSActive == 2 || pRamVariables->ALSActive == 4 || pRamVariables->ALSActive == 5)
+		{
+			pRamVariables->ALSWGDC = ALSWGDC;
+			*pWgdc4 = ALSWGDC * 100.0;
+			WGDCData = (pRamVariables->ALSWGDC * DutyScale);
+			DutyCycleOut(WGDCData);
+			
+		}
+		else
+		{
+			DutyCycleOEM();
+		}
+	}
 #endif
 #endif
+

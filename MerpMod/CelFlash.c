@@ -82,7 +82,7 @@ void CelFlash()
 	
 	//TODO HACK CRUISE LIGHT!!!!!
 	// Check for existing flash call
-	//if(*pCreuiseFlashCounter > 0)
+	//if(*pCruiseFlashCounter > 0)
 	//{
 	//	if(*pCruiseSpeedCounter == 0)
 	//	{			
@@ -98,6 +98,38 @@ void CelFlash()
 	//	}
 	//}
 	
+#if ALS_HACKS
+
+	unsigned char ShiftMode = pRamVariables->DriveMode;
+	unsigned char ALSModeFlashes = pRamVariables->DriveMode;
+	unsigned char MapRatioFlashes = (pRamVariables->FlexFuelRatio * 10);
+	
+		if(*pCurrentGear >= 1)
+		{
+		pRamVariables->ShiftLightRPM = Pull3DHooked(&ShiftLightRPMs,*pCurrentGear, ShiftMode);
+		}
+		else
+		{
+		pRamVariables->ShiftLightRPM = DefaultShiftLightRPM;
+		}
+#endif
+
+/*
+#if DASHBOARD_CEL
+
+	unsigned char FirstFlash;
+	unsigned char SecondFlash;
+	unsigned char ThirdFlash;
+	unsigned char FourthFlash;
+
+	if (entry conditions)
+	{
+		CelFlashStart(FirstFlash,FirstFlashSpeed,0,0); DELAY!!!!
+		CelFlashStart(SecondFlash,SecondFlashSpeed,0,0); DELAY!!!!
+		CelFlashStart(ThirdFlash,ThirdFlashSpeed,0,0); DELAY!!!!
+		CelFlashStart(FourthFlash,FourthFlashSpeed,0,0); LONG DELAY!!!!
+	}
+*/
 
 ////////////////////////////////
 //KNOCK LIGHT CODE w/ IAM RECALL
@@ -111,6 +143,41 @@ void CelFlash()
 	{
 		CelFlashStart(FBKCLoFlashes,FBKCLoFlashSpeed,0,0);
 	}
+
+#if SHIFTLIGHT_HACKS
+	else if(ShiftLightEnabled == HackEnabled && *pEngineSpeed >= pRamVariables->ShiftLightRPM)
+	{
+		CelFlashStart(ShiftLightFlashes,ShiftLightFlashSpeed,0,0);
+	}
+#endif
+
+#if ALS_HACKS
+	else if(pRamVariables->TimerUp4 == 1)
+	{
+		pRamVariables->ALSModeWait == 0x01;
+		pRamVariables->TimerUp4 = 0x00;
+	}
+	else if(pRamVariables->ALSModeWait == 1)
+	{
+		CelFlashStart(ALSModeFlashes,ALSModeFlashSpeed,0,0);
+	}
+	else if(pRamVariables->KillMode >= 2)
+	{
+		CelFlashStart(KillModeFlashes,KillModeFlashSpeed,0,0);
+	}
+/*	else if(pRamVariables->FuelUp == 1)
+	{
+		CelFlashStart(FlexLearnFlashes,FlexLearnFlashSpeed,8,0);
+	}
+	else if(pRamVariables->FlexLearnHasRun == 1)
+	{
+		CelFlashStart(MapRatioFlashes,ALSModeFlashSpeed,0,0);
+		pRamVariables->FlexLearnHasRun = 0x00;
+	}
+*/
+#endif
+
+
 #if !defined(NOAF1RES)
 	else if(*pAf1Res < EGTResistanceThreshold && *pEngineLoad > EGTCelLoadThreshold)
 	{
@@ -121,17 +188,15 @@ void CelFlash()
 	{
 		CelFlashStart(ECTFlashes,ECTFlashSpeed,64,0);
 	}
-	else if(IAM < IAMFlashThreshold)
-	{
-		CelFlashStart(IAMFlashes,IAMFlashSpeed,64,0);
-	}
-	
 	// Call triggers if signal changes!
 	if(pRamVariables->CelSignal != pRamVariables->CelSignalLast)
 	{
 		CelTrigger();
 	}
-	
+	if(IAM < IAMFlashThreshold)
+	{
+		CelFlashStart(IAMFlashes,IAMFlashSpeed,64,0);
+	}
 	
 	//if(*pCruiseSignal != *pCruiseSignalLast)
 	//{

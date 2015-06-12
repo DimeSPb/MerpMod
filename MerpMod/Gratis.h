@@ -4,6 +4,7 @@
 //		HACK CONFIGURATION	//
 //////////////////////////////
 							//
+#define WGDC_MAIN_HOOK 1	//
 #define MEMORY_HACKS 1		//
 #define SD_HACKS	1		//
 #define REVLIM_HACKS 1		//
@@ -18,3 +19,4 @@
 #define INJECTOR_HACKS 0	//
 							//
 //////////////////////////////
+

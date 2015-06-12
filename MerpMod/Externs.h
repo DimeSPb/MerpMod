@@ -18,18 +18,17 @@
 //Function Prototypes
 //////////////////////////
 
-#if PORT_LOGGER
-void PortLogger() ROMCODE;
-#endif
-
-#if RAM_HOLE_SCANNER
-void RamHoleScanner() ROMCODE;
-#endif
-
 unsigned char TestBrakeSwitch()	ROMCODE;
+//unsigned char BitTest(float* input, unsigned char bit) ROMCODE;
 unsigned char TestClutchSwitch() ROMCODE;
 unsigned char TestCruiseResumeSwitch() ROMCODE;
+unsigned char TestCruiseMasterSwitch() ROMCODE;
 unsigned char TestCruiseCoastSwitch() ROMCODE;
+unsigned char TestDefoggerSwitch() ROMCODE;
+unsigned char TestIdleSwitch() ROMCODE;
+unsigned char TestNeutralSwitch() ROMCODE;
+unsigned char DriveModeSwitch() ROMCODE;
+unsigned char DriveModeSwitchAlt() ROMCODE;
 void TestCruiseControlToggles() ROMCODE;
 
 void Initializer()	ROMCODE;
@@ -48,9 +47,38 @@ void CelFlashStart(unsigned char CelFlashes, unsigned char Speed, unsigned char 
 void CelFlash()	ROMCODE;
 void WGDCHack(void) ROMCODE;
 void TargetBoostHack(void) ROMCODE;
-void InjectorHack() ROMCODE;
 void POLFHack()  ROMCODE;
+void InjectorHack() ROMCODE;
+void DriveModeHack()  ROMCODE;
+void LoadFuelLevels() ROMCODE;
+void CheckFuelLevels() ROMCODE;
+void FuelUp() ROMCODE;
+void ALSRamTuning() ROMCODE;
+void Mileage() ROMCODE;
+void SSMHack1() ROMCODE;
+void SSMHack2() ROMCODE;
+void WGDCalt() ROMCODE;
+void ThrottleKick() ROMCODE;
+void AntiLag() ROMCODE;
+void RollingAntiLag() ROMCODE;
+void IdleTimingHack()  ROMCODE;
+void FlexLearn() ROMCODE;
+void FlexRatioUser() ROMCODE;
+void FlexLearnStop() ROMCODE;
+void FlexRoughCorrect() ROMCODE;
+void FlexFineCorrect() ROMCODE;
+void MemoryHardReset() ROMCODE;
+void RotationalFuelCut() ROMCODE;
+void DisplacementOnDemand() ROMCODE;
+//void PedalHack() ROMCODE;
+void Timer(float Minutes, float Seconds) ROMCODE;
+void Timers(float Minutes, float Seconds, unsigned char Number) ROMCODE;
+void Timer1(float Minutes, float Seconds) ROMCODE;
+void Timer2(float Minutes, float Seconds) ROMCODE;
+void Timer3(float Minutes, float Seconds) ROMCODE;
+void Timer4(float Minutes, float Seconds) ROMCODE;
 float TimingHack()  ROMCODE;
+void RotationalSparkCut() ROMCODE;
 float Pull2DRamHook(float* table, float xLookup) ROMCODE;
 float Pull3DRamHook(float* table, float xLookup, float yLookup) ROMCODE;
 void VinCheck() ROMCODE;
@@ -77,6 +105,11 @@ void SetBrake(int value) __attribute__ ((section ("Misc")));
 float Abs(float input) ROMCODE;
 float LowPass(float input, float limit) ROMCODE;
 float HighPass(float input, float limit) ROMCODE;
+unsigned short HighPassShort(unsigned short input, unsigned short limit) ROMCODE;
+float BandPass(float input, float lowlim, float highlim) ROMCODE;
+int BandPassInt(int input, int lowlim, int highlim) ROMCODE;
+unsigned short BandPassShort(unsigned short input, unsigned short lowlim, unsigned short highlim) ROMCODE;
+float Smooth(float smoothingFactor, float input, float previous) ROMCODE;
 
 void RevLimCode(void) ROMCODE;
 void RevLimReset(void) ROMCODE;
@@ -92,7 +125,7 @@ void MapSwitchThresholdCheck(float input) ROMCODE;
 extern float (*Pull3DHooked)(ThreeDTable* table, float xLookup, float yLookup);
 extern float (*Pull2DHooked)(TwoDTable* table, float xLookup);
 extern float (*ShortToFloatHooked)(unsigned short input, float grad, float offs);
-extern void (*RevLimDeleteHooked) ();
+extern float (*FloatToShortHooked)(float input, float grad, float offs);
 
 #define MafVoltageToInternalUnits 13107.20005368709
 
@@ -127,22 +160,39 @@ extern ThreeDTable FuelTable2ss;
 extern ThreeDTable LCFuelEnrichTable;
 extern unsigned char DefaultLCFuelMode;
 extern float DefaultLCFuelLock;
+extern float PGFuelComp;
 extern float DefaultLCFuelEnrichMultiplier;
 
-extern unsigned char DefaultBoostHackEnabled;
+extern TableGroup ReqTorqTableGroup;
+extern ThreeDTable ReqTorqTable1v;
+extern ThreeDTable ReqTorqTable1i;
+extern ThreeDTable ReqTorqTable1s;
+extern ThreeDTable ReqTorqTable1ss;
+
+extern TableGroup AVCSTableGroup;
+extern ThreeDTable AVCSTable1i;
+extern ThreeDTable AVCSTable1s;
+extern ThreeDTable AVCSTable1ss;
+extern ThreeDTable AVCSTable2i;
+extern ThreeDTable AVCSTable2s;
+extern ThreeDTable AVCSTable2ss;
+//extern TableGroup AVCSGear5TableGroup;
+//extern ThreeDTable AVCSTable1Gear5;
+//extern ThreeDTable AVCSTable2Gear5;
+
 extern TableGroup PGWGTableGroup;
 extern ThreeDTable PGWGTable1i;
 extern ThreeDTable PGWGTable2i;
-extern ThreeDTable PGTBTable1s;
-extern ThreeDTable PGTBTable2s;
+extern ThreeDTable PGWGTable1s;
+extern ThreeDTable PGWGTable2s;
 extern ThreeDTable PGWGTable1ss;
 extern ThreeDTable PGWGTable2ss;
 
 extern TableGroup PGTBTableGroup;
 extern ThreeDTable PGTBTable1i;
 extern ThreeDTable PGTBTable2i;
-extern ThreeDTable PGWGTable1s;
-extern ThreeDTable PGWGTable2s;
+extern ThreeDTable PGTBTable1s;
+extern ThreeDTable PGTBTable2s;
 extern ThreeDTable PGTBTable1ss;
 extern ThreeDTable PGTBTable2ss;
 
@@ -176,6 +226,7 @@ extern ThreeDTable WGDCMaxRamTable;
 
 
 extern unsigned char DefaultTimingHackEnabled;
+extern float PGHighGearsTimingComp;
 extern TableGroup TimingTableGroup;
 extern ThreeDTable TimingTable1i;
 extern ThreeDTable TimingTable2i;
@@ -191,6 +242,9 @@ extern ThreeDTable KnockCorrectionRetardTable1s;
 extern ThreeDTable KnockCorrectionRetardTable2s;
 extern ThreeDTable KnockCorrectionRetardTable1ss;
 extern ThreeDTable KnockCorrectionRetardTable2ss;
+
+extern ThreeDTable FirstGearTimingAdditiveTable;
+extern ThreeDTable SecondGearTimingAdditiveTable;
 
 extern ThreeDTable LCTimingRetardTable;
 
@@ -232,7 +286,7 @@ extern char* LCSparkEventsCutFrom;
 extern unsigned char DefaultLCSparkEventsToCut;
 extern unsigned char DefaultLCSparkEventsCutFrom;
 
-//CEL flahs defaults
+//CEL flash defaults
 extern unsigned char FBKCLoFlashes;
 extern unsigned char FBKCLoFlashSpeed;
 extern unsigned char FBKCHiFlashes;
@@ -251,6 +305,77 @@ extern float FBKCLoadThreshold;
 extern float EGTCelLoadThreshold;
 extern float EGTResistanceThreshold;
 
+extern unsigned char ShiftLightFlashes;
+extern float DefaultShiftLightRPM;
+extern unsigned char ShiftLightFlashSpeed;
+extern unsigned char KillModeFlashes;
+extern unsigned char KillModeFlashSpeed;
+extern unsigned char FlexLearnFlashes;
+extern unsigned char FlexLearnFlashSpeed;
+extern unsigned char ShiftLightEnabled;
+extern ThreeDTable ShiftLightRPMs;
+
+
+#if ALS_HACKS
+extern float DefaultALSBoostLimit;
+extern float DefaultALSFuelLock;
+extern float DefaultRIMFuelLock;
+extern float DefaultALSTimingLock;
+extern float DefaultRIMTimingLock;
+extern float DefaultALSTargetIdleSpeed;
+extern float DefaultALSTargetIdleSpeedFCRI;
+extern float FuelRatio1;
+extern float FuelRatio2;
+extern unsigned char NewDriveMode;
+extern unsigned char DefaultDriveMode;
+extern unsigned char ShiftMode;
+extern unsigned char ModeWait;
+extern unsigned char KillWait;
+extern unsigned char ALSModeFlashes;
+extern unsigned char ALSModeFlashSpeed;
+extern float CyclesPerSec;
+extern unsigned char FlexFuelEnabled;
+extern float FlexRoughFTs;
+extern float FlexFineFTs;
+extern float FlexRoughRatio;
+extern float FlexFineRatio;
+extern float FuelCheckWaitTime;
+extern float FlexRatioUserJump;
+extern float TargetCLAFR;
+extern float LeanCruiseLoadThreshold;
+extern TwoDTable O2SensorScalingMPGTable;
+extern ThreeDTable ALSTPSTable;
+extern float ALSWGDC;
+extern float ALSAVCS;
+extern float DefaultALSPOLFRamTuning;
+extern float DefaultALSTimingRamTuning;
+extern float DefaultALSAVCSRamTuning;
+extern float ALSTimingRamTuningAdder;
+extern float ALSPOLFRamTuningAdder;
+extern float ALSAVCSRamTuningAdder;
+extern float OpenLoopAFRmin;
+extern float ALSAcceleratorTrigger;
+extern float ALSRPMLimit;
+extern float ALSVehicleSpeedEnable;
+extern float ALSVehicleSpeedDisable;
+extern float RIMVehicleSpeedDisable;
+extern float ALSRequestedTorque;
+//extern float ALSTPS;
+//extern float ALSTPS4;
+extern unsigned char RIMCutMode;
+extern unsigned char ALSCutMode;
+extern unsigned char RollingAntiLagEnabled;
+extern unsigned char DODMode;
+extern float FCRIPedalThresh;
+extern float ALSPedalThresh;
+extern float DefaultRimRPMDiff;
+extern float ECTALSThreshold;
+extern float ALSRPMDeltaLimit;
+extern short PedalKick;
+extern float ThrottleRPMDenom;
+extern float ThrottleBoostMult;
+
+#endif
 
 //Rev Limiter Defaults
 extern unsigned char DefaultRevLimMode;

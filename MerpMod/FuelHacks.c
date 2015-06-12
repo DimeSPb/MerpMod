@@ -28,7 +28,7 @@ pRamVariables->InjectorScaling = OutputValue;
 
 #endif
 
-#if POLF_HOOK_DEFINED
+#if POLF_HACKS
 	void (*PolfHooked)() __attribute__ ((section ("RomHole_Functions"))) = (void(*)()) sPolf;
 
 void POLFHack()
@@ -61,16 +61,41 @@ EcuHacksMain();
 		{
 			OutputValue += pRamVariables->LCFuelEnrich;
 		}
-		//Now run existing code!
-	
-		pRamVariables->PolfTarget = OutputValue;
-	
-		if(pRamVariables->PolfHackEnabled == 0x01)//TODO: ENUM
-			pRamVariables->PolfOutput = pRamVariables->PolfTarget;
-		else
-			pRamVariables->PolfOutput = Pull3DHooked((void*)PrimaryOEMPolfTable, *pEngineLoad, *pEngineSpeed);	
+
+#if ALS_HACKS
+	if (pRamVariables->ALSActive == 2)
+		{
+			OutputValue = DefaultRIMFuelLock;
+#if ALS_RAMTUNING
+			OutputValue += pRamVariables->ALSPOLFRamTuning;
 #endif
-		
+		}
+	else if (pRamVariables->ALSActive == 5 || pRamVariables->ALSActive == 4)
+		{
+			OutputValue = DefaultALSFuelLock;
+#if ALS_RAMTUNING
+			OutputValue += pRamVariables->ALSPOLFRamTuning;
+#endif
+		}
+	else
+		{
+#endif
+			OutputValue *= PGFuelComp;
+			
+#if ALS_HACKS
+		}
+#endif
+	
+		if(pRamVariables->PolfHackEnabled == HackEnabled)
+			{
+				pRamVariables->PolfOutput = OutputValue;
+			}
+		else
+			{
+				pRamVariables->PolfOutput = Pull3DHooked((void*)PrimaryOEMPolfTable, *pEngineLoad, *pEngineSpeed);
+			}	
+#endif
+	//Now run existing code!	
 	PolfHooked();
 }
 #endif

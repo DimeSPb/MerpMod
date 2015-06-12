@@ -35,10 +35,9 @@ void ResetRamVariables()
 
 void InitRamVariables()
 {
-	if(pRamVariables->MasterInitFlag != 0xB4)
+	if(pRamVariables->ECUIdentifier != *(long*)dEcuId)
 	{
-		ClearRamVariables((long*)pRamVariables,(long*)&pRamVariables->RamHoleEndMarker);
-		PopulateRamVariables();
+		ResetRamVariables();
 	}
 }
 
@@ -60,6 +59,10 @@ void PopulateRamVariables()
 pRamVariables->CruiseResumeLast = TestCruiseResumeSwitch();
 pRamVariables->CruiseCoastLast = TestCruiseCoastSwitch();
 #endif
+
+pRamVariables->IdleLast = TestIdleSwitch();
+pRamVariables->NeutralLast = TestNeutralSwitch();
+pRamVariables->DefoggerLast = TestDefoggerSwitch();
 
 #if INJECTOR_HACKS
 	//Injector Scalar init to default
@@ -130,15 +133,47 @@ pRamVariables->CruiseCoastLast = TestCruiseCoastSwitch();
 	pRamVariables->LCTimingRetardMultiplier = DefaultLCTimingRetardMultiplier;
 #endif
 
-#if BOOST_HACKS
-	pRamVariables->BoostHackEnabled = DefaultBoostHackEnabled;
-#endif
-
 #if SD_HACKS
 	pRamVariables->MafMode = DefaultMafMode;
 #endif
 
-pRamVariables->MasterInitFlag = 0xB4;//TODO Absract this
+#if SHIFTLIGHT_HACKS
+	pRamVariables->ShiftLightRPM = DefaultShiftLightRPM;
+#endif
+
+#if ALS_HACKS
+	pRamVariables->TargetIdleSpeed = Pull2DHooked((void*)PrimaryOEMTargetIdleSpeedTableA, *pCoolantTemp);
+	pRamVariables->ALSModeWait = 0x00;
+	pRamVariables->ALSEnable = 0x00;
+	pRamVariables->ALSActive = 0x00;
+	pRamVariables->RequestedTorque = Pull3DHooked((void*)tRequestedTorqueA, *pAcceleratorPedal, *pEngineSpeed);
+	pRamVariables->DriveMode = DefaultDriveMode;
+	pRamVariables->KillMode = 0x00;
+	pRamVariables->FuelCheck1 = 0.0;
+	pRamVariables->FuelCheck2 = 0.0;
+	pRamVariables->StartTimer = 0.0;
+	pRamVariables->TimerUp = 0x01;
+	pRamVariables->FuelUp = 0x00;
+	pRamVariables->FlexCount = 0x00;
+	pRamVariables->FlexWait = 0x00;
+	pRamVariables->FuelCheckSwitch = 0x00;
+	pRamVariables->FuelLevelSwitch = 0x00;
+	pRamVariables->FlexLearnHasRun = 0x00;
+//	pRamVariables->FlexFuelRatio = 0.0;	
+	pRamVariables->FuelLevel1 = 0.0;
+	pRamVariables->FuelLevel2 = 0.0;
+	pRamVariables->FuelLevel3 = 0.0;
+	pRamVariables->FlexFuelEnabled = FlexFuelEnabled;
+	pRamVariables->FuelCut = 0x0000;
+	pRamVariables->ALSTargetIdleSpeed = DefaultALSTargetIdleSpeed;
+#if ALS_RAMTUNING
+	pRamVariables->ALSAVCSRamTuning = DefaultALSAVCSRamTuning;
+	pRamVariables->ALSPOLFRamTuning = DefaultALSPOLFRamTuning;
+	pRamVariables->ALSTimingRamTuning = DefaultALSTimingRamTuning;
+#endif
+#endif
+
+pRamVariables->ECUIdentifier = *(long*)dEcuId;
 
 }
 

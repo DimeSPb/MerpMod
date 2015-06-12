@@ -19,33 +19,37 @@
 float INJECTOR_SCALING_ROWS[11] FUELDATA =
 {0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0};
 
-short INJECTOR_SCALING_DATA[11] FUELDATA =
-{20000,20100,20200,20300,20400,20500,20600,20700,20800,20900,21000};//TODO: document the native units here
+float INJECTOR_SCALING_DATA[11] FUELDATA =
+{4916,4916,4916,4916,4916,4916,4916,4916,4916,4916,4916};
 
-TwoDTable InjectorScalingTable  FUELDATA = {
-	.columnCount = 11,
-	.tableType = UInt16Table2D,
-	.columnHeaderArray = INJECTOR_SCALING_ROWS,
-	.tableCells = INJECTOR_SCALING_DATA,
-	.multiplier = 0.824f,	//todo unit test these
-	.offset = 0.0 };
-//! 27000/32767  (0-27000.00 range, 16bit precision)
+TwoDTable InjectorScalingTable FUELDATA = {
+.columnCount = 11,
+.tableType = FloatTable2D,
+.columnHeaderArray = INJECTOR_SCALING_ROWS,
+.tableCells = INJECTOR_SCALING_DATA,
+.multiplier = 0.824f, //todo unit test these
+.offset = 0.0 };
+//! 27000/32767 (0-27000.00 range, 16bit precision)
 
 #endif
 
 #if POLF_HACKS
 
-unsigned char DefaultPolfHackEnabled FUELDATA = 0x01;
+unsigned char DefaultPolfHackEnabled FUELDATA = HackEnabled;
 unsigned char DefaultLCFuelMode FUELDATA = 0x01;
 float DefaultLCFuelLock FUELDATA = 0.35f;
 float DefaultLCFuelEnrichMultiplier FUELDATA = 1.0f;
+float PGFuelComp FUELDATA = 1.0f;
+float OpenLoopAFRmin FUELDATA = 0.05f;
 
 #if SWITCH_HACKS
 TableGroup FuelTableGroup FUELDATA = {
 	{&FuelTable1i,
+	&FuelTable1i,
 	&FuelTable1s,
 	&FuelTable1ss},
 	{&FuelTable2i,
+	&FuelTable2i,
 	&FuelTable2s,
 	&FuelTable2ss}
 };
@@ -53,8 +57,10 @@ TableGroup FuelTableGroup FUELDATA = {
 TableGroup FuelTableGroup FUELDATA = {
 	{&FuelTable1i,
 	&FuelTable1i,
+	&FuelTable1i,
 	&FuelTable1i},
 	{&FuelTable2i,
+	&FuelTable2i,
 	&FuelTable2i,
 	&FuelTable2i}
 };
@@ -142,12 +148,6 @@ ThreeDTable FuelTable1i FUELDATA = {
 //!! Fuel Table 2 Intelligent
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-float F2I_COLS[20] FUELDATA =
-{0.35,	0.55,	0.7,	0.87,	1,	1.15,	1.25,	1.35,	1.45,	1.6,	1.7,	1.8,	2,	2.21,	2.43,	2.64,	2.86,	3.07,	3.29,	3.5,};
-
-float F2I_ROWS[20] FUELDATA =
-{800,1200,1600,2000,2400,2800,3200,3600,4000,4400,4800,5200,5600,6000,6400,6800,7200,7600,8000,8400};
-
 unsigned char F2I_DATA[400] FUELDATA =
 {0,	0,	0,	0,	0,	0,	14,	14,	14,	14,	14,	14,	14,	14,	14,	14,	14,	14,	14,	14,
 0,	0,	0,	0,	0,	0,	14,	14,	14,	14,	14,	14,	14,	14,	14,	14,	14,	14,	14,	14,
@@ -174,8 +174,8 @@ unsigned char F2I_DATA[400] FUELDATA =
 ThreeDTable FuelTable2i FUELDATA = {
 	.columnCount = 20,
 	.rowCount = 20,
-	.columnHeaderArray = F2I_COLS,
-	.rowHeaderArray = F2I_ROWS,
+	.columnHeaderArray = F1I_COLS,
+	.rowHeaderArray = F1I_ROWS,
 	.tableCells = F2I_DATA,
 	.tableType = UInt8Table3D,
 	.multiplier = 0.0078125,// = 2/255 (0-2 range, 8bit precision)
@@ -185,11 +185,6 @@ ThreeDTable FuelTable2i FUELDATA = {
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //!! Fuel Table 1 Sport
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-float F1S_COLS[20] FUELDATA =
-{0.35,	0.55,	0.7,	0.87,	1,	1.15,	1.25,	1.35,	1.45,	1.6,	1.7,	1.8,	2,	2.21,	2.43,	2.64,	2.86,	3.07,	3.29,	3.5,};
-
-float F1S_ROWS[20] FUELDATA =
-{800,1200,1600,2000,2400,2800,3200,3600,4000,4400,4800,5200,5600,6000,6400,6800,7200,7600,8000,8400};
 
 unsigned char F1S_DATA[400] FUELDATA =
 {0,	0,	0,	0,	0,	0,	14,	14,	14,	14,	14,	14,	14,	14,	14,	14,	14,	14,	14,	14,
@@ -217,8 +212,8 @@ unsigned char F1S_DATA[400] FUELDATA =
 ThreeDTable FuelTable1s FUELDATA = {
 	.columnCount = 20,
 	.rowCount = 20,
-	.columnHeaderArray = F1S_COLS,
-	.rowHeaderArray = F1S_ROWS,
+	.columnHeaderArray = F1I_COLS,
+	.rowHeaderArray = F1I_ROWS,
 	.tableCells = F1S_DATA,
 	.tableType = UInt8Table3D,
 	.multiplier = 0.0078125,//0x3C000000, // 0.78125 = 2/255 (0-2 range, 8bit precision)
@@ -227,12 +222,6 @@ ThreeDTable FuelTable1s FUELDATA = {
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //!! Fuel Table 2 Sport
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-float F2S_COLS[20] FUELDATA =
-{0.35,	0.55,	0.7,	0.87,	1,	1.15,	1.25,	1.35,	1.45,	1.6,	1.7,	1.8,	2,	2.21,	2.43,	2.64,	2.86,	3.07,	3.29,	3.5,};
-
-float F2S_ROWS[20] FUELDATA =
-{800,1200,1600,2000,2400,2800,3200,3600,4000,4400,4800,5200,5600,6000,6400,6800,7200,7600,8000,8400};
 
 unsigned char F2S_DATA[400] FUELDATA =
 {0,	0,	0,	0,	0,	0,	14,	14,	14,	14,	14,	14,	14,	14,	14,	14,	14,	14,	14,	14,
@@ -260,8 +249,8 @@ unsigned char F2S_DATA[400] FUELDATA =
 ThreeDTable FuelTable2s FUELDATA = {
 	.columnCount = 20,
 	.rowCount = 20,
-	.columnHeaderArray = F2S_COLS,
-	.rowHeaderArray = F2S_ROWS,
+	.columnHeaderArray = F1I_COLS,
+	.rowHeaderArray = F1I_ROWS,
 	.tableCells = F2S_DATA,
 	.tableType = UInt8Table3D,
 	.multiplier = 0.0078125,// = 2/255 (0-2 range, 8bit precision)
@@ -270,11 +259,6 @@ ThreeDTable FuelTable2s FUELDATA = {
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //!! Fuel Table 1 Sport Sharp
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-float F1SS_COLS[20] FUELDATA =
-{0.35,	0.55,	0.7,	0.87,	1,	1.15,	1.25,	1.35,	1.45,	1.6,	1.7,	1.8,	2,	2.21,	2.43,	2.64,	2.86,	3.07,	3.29,	3.5,};
-
-float F1SS_ROWS[20] FUELDATA =
-{800,1200,1600,2000,2400,2800,3200,3600,4000,4400,4800,5200,5600,6000,6400,6800,7200,7600,8000,8400};
 
 unsigned char F1SS_DATA[400] FUELDATA =
 {0,	0,	0,	0,	0,	0,	14,	14,	14,	14,	14,	14,	14,	14,	14,	14,	14,	14,	14,	14,
@@ -302,8 +286,8 @@ unsigned char F1SS_DATA[400] FUELDATA =
 ThreeDTable FuelTable1ss FUELDATA = {
 	.columnCount = 20,
 	.rowCount = 20,
-	.columnHeaderArray = F1SS_COLS,
-	.rowHeaderArray = F1SS_ROWS,
+	.columnHeaderArray = F1I_COLS,
+	.rowHeaderArray = F1I_ROWS,
 	.tableCells = F1SS_DATA,
 	.tableType = UInt8Table3D,
 	.multiplier = 0.0078125,//0x3C000000, // 0.78125 = 2/255 (0-2 range, 8bit precision)
@@ -312,12 +296,6 @@ ThreeDTable FuelTable1ss FUELDATA = {
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //!! Fuel Table 2 Sport Sharp
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-float F2SS_COLS[20] FUELDATA =
-{0.35,	0.55,	0.7,	0.87,	1,	1.15,	1.25,	1.35,	1.45,	1.6,	1.7,	1.8,	2,	2.21,	2.43,	2.64,	2.86,	3.07,	3.29,	3.5,};
-
-float F2SS_ROWS[20] FUELDATA =
-{800,1200,1600,2000,2400,2800,3200,3600,4000,4400,4800,5200,5600,6000,6400,6800,7200,7600,8000,8400};
 
 unsigned char F2SS_DATA[400] FUELDATA =
 {0,	0,	0,	0,	0,	0,	14,	14,	14,	14,	14,	14,	14,	14,	14,	14,	14,	14,	14,	14,
@@ -345,8 +323,8 @@ unsigned char F2SS_DATA[400] FUELDATA =
 ThreeDTable FuelTable2ss FUELDATA = {
 	.columnCount = 20,
 	.rowCount = 20,
-	.columnHeaderArray = F2SS_COLS,
-	.rowHeaderArray = F2SS_ROWS,
+	.columnHeaderArray = F1I_COLS,
+	.rowHeaderArray = F1I_ROWS,
 	.tableCells = F2SS_DATA,
 	.tableType = UInt8Table3D,
 	.multiplier = 0.0078125,// = 2/255 (0-2 range, 8bit precision)

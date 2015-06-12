@@ -37,3 +37,50 @@ float HighPass(float input, float limit)
 	else
 		return limit;
 }
+
+unsigned short HighPassShort(unsigned short input, unsigned short limit)
+{
+	if(input > limit)
+		return input;
+	else
+		return limit;
+}
+
+float BandPass(float input, float lowlim, float highlim)
+{
+	if(input > highlim)
+		return highlim;
+	else if(input < lowlim)
+		return lowlim;
+	else
+		return input;
+}
+
+int BandPassInt(int input, int lowlim, int highlim)
+{
+	if(input > highlim)
+		return highlim;
+	else if(input < lowlim)
+		return lowlim;
+	else
+		return input;
+}
+
+unsigned short BandPassShort(unsigned short input, unsigned short lowlim, unsigned short highlim)
+{
+	if(input > highlim)
+		return highlim;
+	else if(input < lowlim)
+		return lowlim;
+	else
+		return input;
+}
+
+float Smooth(float smoothingFactor, float input, float previous)
+{
+float output = previous;
+float diff = input - previous;
+float smooth = BandPass(smoothingFactor,0.1,1);
+output += diff * smooth;
+return output;
+}

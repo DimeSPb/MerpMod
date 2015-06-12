@@ -18,7 +18,8 @@
 enum TableType3D
 {
 	UInt8Table3D = (unsigned long)0x04000000,
-	UInt16Table3D = (unsigned long)0x08000000
+	UInt16Table3D = (unsigned long)0x08000000,
+	FloatTable3D = (unsigned long)0x00000000
 };
 
 enum TableType2D
@@ -72,10 +73,12 @@ enum LCFuelModeValues
 };
 enum InputModeValues
 {
-	InputModeUndefined = 0,
-	InputModeTGVLeft = 1,
-	InputModeTGVRight = 2,
-	InputModeSiDrive = 3
+	InputModeUndefined = 0x00,
+	InputModeTGVLeft = 0x01,
+	InputModeTGVRight = 0x02,
+	InputModeSiDrive = 0x03,
+	InputModeDriveMode = 0x04,
+	InputModeVirtualFlexSensor = 0x05,
 };
 enum MapSwitchValues
 {
@@ -83,6 +86,12 @@ enum MapSwitchValues
 	MapSwitch1 = 1,
 	MapSwitch2 = 2,
 	MapSwitch3 = 3,
+	MapSwitch4 = 4,
+};
+enum HackSwitch
+{
+	HackDisabled = (unsigned char)0x00,
+	HackEnabled = (unsigned char)0x01,
 };
 
 //,1=S,2=S#,3=I,8=S#,16=I"
@@ -120,9 +129,10 @@ typedef struct
 
 typedef struct
 {
-	ThreeDTable* TableI;
-	ThreeDTable* TableS;
-	ThreeDTable* TableSS;
+	ThreeDTable* Tablev;
+	ThreeDTable* Tablei;
+	ThreeDTable* Tables;
+	ThreeDTable* Tabless;
 } TableSubSet;
 
 typedef struct{

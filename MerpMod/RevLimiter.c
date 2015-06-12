@@ -45,16 +45,14 @@ void RevLimCode()
 void RevLimReset()
 {
 	pRamVariables->RevLimCut = pRamVariables->RedLineCut;
-				pRamVariables->RevLimResume = pRamVariables->RedLineCut - HighPass(pRamVariables->RedLineHyst,0.0f);
+				pRamVariables->RevLimResume = pRamVariables->RedLineCut - Abs(pRamVariables->RedLineHyst);
 				//Disable FFS if clutch is out or brake is pressed
 				pRamVariables->FFSEngaged = 0;
 				pRamVariables->LCEngaged = 0;
-				#ifdef pCurrentGear
 				if(*pCurrentGear > 0)
 				{
 					pRamVariables->FFSGear = *pCurrentGear;
 				}
-				#endif
 }
 
 void RevLimCode()
@@ -70,6 +68,7 @@ void RevLimCode()
 	else
 	{
 #endif
+
 
 	#ifdef pBrakeFlags
 		if (!TestClutchSwitch() || TestBrakeSwitch())
@@ -102,7 +101,7 @@ void RevLimCode()
 				pRamVariables->FFSEngaged = 0;
 				pRamVariables->LCEngaged = 1;
 				pRamVariables->RevLimCut = pRamVariables->LaunchControlCut;
-				pRamVariables->RevLimResume = pRamVariables->LaunchControlCut - HighPass(pRamVariables->LaunchControlHyst,0.0f);
+				pRamVariables->RevLimResume = pRamVariables->LaunchControlCut - Abs(pRamVariables->LaunchControlHyst);
 			}
 			else
 				RevLimReset();
@@ -111,7 +110,6 @@ void RevLimCode()
 	
 		if (pRamVariables->FFSEngaged == 1)
 		{
-			#ifdef pCurrentGear
 			if (pRamVariables->FlatFootShiftMode == 2)
 			{
 				float cut =  pRamVariables->FFSRPM;
@@ -119,19 +117,14 @@ void RevLimCode()
 				cut *= 1 / GearRatios[(int)pRamVariables->FFSGear];
 				cut += pRamVariables->FlatFootShiftAutoDelta;
 				pRamVariables->RevLimCut = cut;
-				pRamVariables->RevLimResume = pRamVariables->RevLimCut - HighPass(pRamVariables->FlatFootShiftHyst,0.0f);
+				pRamVariables->RevLimResume = pRamVariables->RevLimCut - Abs(pRamVariables->FlatFootShiftHyst);
 			}
 			else
 			{
-			#endif
-			
-				float cut = pRamVariables->RedLineCut - HighPass(pRamVariables->FlatFootShiftStaticDelta,0.0f);
+				float cut = pRamVariables->RedLineCut - Abs(pRamVariables->FlatFootShiftStaticDelta);
 				pRamVariables->RevLimCut = cut;
-				pRamVariables->RevLimResume = cut - HighPass(pRamVariables->FlatFootShiftHyst,0.0f);
-			
-			#ifdef pCurrentGear
+				pRamVariables->RevLimResume = cut - Abs(pRamVariables->FlatFootShiftHyst);
 			}
-			#endif
 			pRamVariables->FFSEngaged = 2;
 		}
 		
@@ -204,3 +197,4 @@ void RevLimCode()
 #endif
 
 #endif
+

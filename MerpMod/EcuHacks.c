@@ -54,6 +54,15 @@ Validating hacks prior to ROM patching:
 
 void EcuHacksMain() //Constant Hz main routine, hooked into wgdc lookup
 {	
+	
+#if REVLIM_TEST
+	RevLimCode();
+
+		#if SWITCH_HACKS
+			InputUpdate();
+		#endif
+#endif
+
 #if PROG_MODE
 	ProgModeListener();
 #endif
@@ -64,6 +73,19 @@ void EcuHacksMain() //Constant Hz main routine, hooked into wgdc lookup
 
 #if CEL_HACKS
 	CelFlash();
+#endif
+
+#if ALS_HACKS
+#if !ALS_RAMTUNING
+	DriveModeHack();
+	MemoryHardReset();
+#endif
+	FuelUp();
+	AntiLag();
+	Mileage();
+#if ALS_RAMTUNING
+	ALSRamTuning();
+#endif
 #endif	
 
 #if PORT_LOGGER

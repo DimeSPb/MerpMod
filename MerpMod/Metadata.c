@@ -832,7 +832,9 @@ const MetaReplace WGDCHook METADATA =
 		newval: (int)PedalHack,
 		name: STR(Pedal Hook)
 	};
-*/	const MetaReplace WGDCHiJackHook METADATA =
+*/
+#if WRX
+	const MetaReplace WGDCHiJackHook METADATA =
 	{
 		op: OpReplace4Bytes,
 		address: hDutyCycleOut,
@@ -840,6 +842,17 @@ const MetaReplace WGDCHook METADATA =
 		newval: (int)WGDCalt,
 		name: STR(WGDC Final Subroutine Hook)
 	};
+#endif
+#ifdef hTargetIdleTPSstiA
+	const MetaReplace TargetIdleTPSstiA METADATA =
+	{
+		op: OpReplace4Bytes,
+		address: hTargetIdleTPSstiA,
+		oldval: pTargetTPSIdle,
+		newval: (int)&(pRamVariables->ALSTPS),
+		name: STR(Target Idle TPS sti A Hook)
+	};
+#else
 	const MetaReplace TargetIdleTPSHook METADATA =
 	{
 		op: OpReplace4Bytes,
@@ -848,6 +861,17 @@ const MetaReplace WGDCHook METADATA =
 		newval: (int)&(pRamVariables->ALSTPS),
 		name: STR(Target Idle TPS Hook)
 	};
+#endif
+#ifdef hTargetIdleTPSstiB
+	const MetaReplace TargetIdleTPSstiB METADATA =
+	{
+		op: OpReplace4Bytes,
+		address: hTargetIdleTPSstiB,
+		oldval: pTargetTPSIdle,
+		newval: (int)&(pRamVariables->ALSTPS),
+		name: STR(Target Idle TPS sti B Hook)
+	};
+#endif
 /*	const MetaReplace SparkHook METADATA =
 	{
 		op: OpReplace4Bytes,

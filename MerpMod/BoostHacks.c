@@ -160,7 +160,7 @@ void TargetBoostHack()
 		}
 	#endif
 }
-
+#if WRX
 void WGDCalt()
 	{
 		int WGDCData;
@@ -178,6 +178,7 @@ void WGDCalt()
 			DutyCycleOEM();
 		}
 	}
+#endif
 #endif
 #endif
 

@@ -40,6 +40,7 @@
 #define PORT_LOGGER 0		//
 #define MPG_HACKS 1		//
 #define SSM_HACKS 1		//
+#define WRX 0			//
 #define ALS_RAMTUNING 0		//
 					//
 //////////////////////////////

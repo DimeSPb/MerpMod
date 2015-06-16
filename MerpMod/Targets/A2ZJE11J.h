@@ -1,4 +1,4 @@
-#define MOD_DATE 14.6.13.1112
+#define MOD_DATE 15.6.15.911
 
 #include "Switch.h"
 #define MOD_CONFIG Switch
@@ -182,23 +182,23 @@
 #define tTargetIdleSpeedC (0x0007BA60)
 #define hPullIdleMapSelection (0x0003A6CC)
 #define pIdleMapSelection (0xFFFF5C3C)
-//#define hPullRequestedTorqueA (0x000BEA7C)
-//#define tRequestedTorqueA (0x000964D0)
-//#define hTableRequestedTorqueA (0x000BE9FC)
+#define hPullRequestedTorqueA (0x00039B74)
+#define tRequestedTorqueA (0x0007BD60)
+#define hTableRequestedTorqueA (0x00039B70)
 #define sFloatToShort (0x0000250C)
 #define sFloatToByte (0x0000254C)
 #define pAVCS ((float*)0xFFFF6124)
 #define hPullAVCS (0x00047AB4)
-//#define tAVCS (0x00096A28)
-//#define hTableAVCS (0x0005398C)
-//#define pO2SensorScaling ((float*)0xFFFF5F00)
-//#define hPullO2SensorScaling (0x0000BFD8)
-//#define tO2SensorScaling (0x00096600)
-//#define hTableO2SensorScaling (0x0000BFD4)
-//#define pAFSensor1Current ((float*)0xFFFF5F04)
-//#define hOpenLoopAFRmin (0x000306C0)
-//#define dOpenLoopAFRmin (0x000C8598)
-//#define hTargetTPSBandPass (0x000BE73C)
+#define tAVCS (0x0007C1DC)
+#define hTableAVCS (0x00047ABC)
+#define pO2SensorScaling ((float*)0xFFFF4A48)
+#define hPullO2SensorScaling (0x0000F3E4)
+#define tO2SensorScaling (0x0007BE6C)
+#define hTableO2SensorScaling (0x0000F3E0)
+#define pAFSensor1Current ((float*)0xFFFF4A4C)
+#define hOpenLoopAFRmin (0x000C5E2C)
+#define dOpenLoopAFRmin (0x000C5E2C)
+////#define hTargetTPSBandPass (0x000BE73C)
 #define sBandPass (0x00002480)
 #define pTargetTPSIdle ((float*)0xFFFF5AE4)
 #define pTargetIdleAir ((float*)0xFFFF5AF4)
@@ -206,7 +206,7 @@
 #define hTargetIdleTPSstiB (0x0003962C)
 #define hFuelCut (0x000254D8)
 #define pFuelCut ((short*)0xFFFF524C)
-//#define pBoost ((float*)0xFFFF669C)
+#define pBoost ((float*)0xFFFF4DD0)
 
 /////////////////////
 // OBD Experimental stuff
@@ -230,4 +230,4 @@
 #define hMemoryReset (0x0000DFE0)
 #define pMemoryResetLimit (0xFFFFBFFB)
 #define hMemoryResetLimit (0x000110D8)
-//#define sMemorySoftReset (0x00056A24)
+#define sMemorySoftReset (0x00049B34)

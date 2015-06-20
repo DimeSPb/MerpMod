@@ -118,7 +118,7 @@ DEFINERAMVAR("MM Prog Mode Current Mode",ProgModeCurrentMode,1,"E");
 DEFINERAMVAR("MM Prog Mode Selected Value Flash",ProgModeValueFlashes,1,"E");
 DEFINERAMVAR("MM Prog Mode Value",ProgModeValue,4,"E");
 #endif
-	
+
 DEFIDA1D("ECU Identifier",dEcuId);
 
 //Engine load smoothing factors
@@ -395,7 +395,7 @@ DEFNEW1D("Launch Control Timing Mode",DefaultLCTimingMode);
 DEFNEW1D("Launch Control Timing Lock",DefaultLCTimingLock);	
 DEFNEW1D("Default Launch Control Timing Retard Multiplier",DefaultLCTimingRetardMultiplier);
 DEFNEW3D("Launch Control Timing Retard Table",LCTimingRetardTable);
-	
+
 #if SWITCH_HACKS
 DEFNEW3D("Base Timing Table 1 Intelligent",TimingTable1i);
 DEFNEW3D("Base Timing Table 2 Intelligent",TimingTable2i);
@@ -469,15 +469,15 @@ DEFNEW3D("Requested Torque Normal Mode",ReqTorqTable1i);
 DEFNEW3D("Requested Torque Valet Mode",ReqTorqTable1v);
 DEFNEW3D("Requested Torque Performance Mode",ReqTorqTable1s);
 DEFNEW3D("Requested Torque ALS Mode",ReqTorqTable1ss);
-DEFNEW1D("Virtual Flex Fuel Sensor",FlexFuelEnabled);
-DEFNEW1D("Rough Correcting Ratio",FlexRoughRatio);
-DEFNEW1D("Fine Correcting Ratio",FlexFineRatio);
-DEFNEW1D("Rough Correcting Fuel Trim",FlexRoughFTs);
-DEFNEW1D("Fine Correcting Fuel Trim",FlexFineFTs);
-DEFNEW1D("Fuel Check Wait Time",FuelCheckWaitTime);
-DEFNEW1D("Fuel Check Ratio 1",FuelRatio1);
-DEFNEW1D("Fuel Check Ratio 2",FuelRatio2);
-DEFNEW1D("User Ratio",FlexRatioUserJump);
+//DEFNEW1D("Virtual Flex Fuel Sensor",FlexFuelEnabled);
+//DEFNEW1D("Rough Correcting Ratio",FlexRoughRatio);
+//DEFNEW1D("Fine Correcting Ratio",FlexFineRatio);
+//DEFNEW1D("Rough Correcting Fuel Trim",FlexRoughFTs);
+//DEFNEW1D("Fine Correcting Fuel Trim",FlexFineFTs);
+//DEFNEW1D("Fuel Check Wait Time",FuelCheckWaitTime);
+//DEFNEW1D("Fuel Check Ratio 1",FuelRatio1);
+//DEFNEW1D("Fuel Check Ratio 2",FuelRatio2);
+//DEFNEW1D("User Ratio",FlexRatioUserJump);
 DEFNEW3D("Intake Cam Advance Angle (AVCS) Table 1 Intelligent",AVCSTable1i);
 DEFNEW3D("Intake Cam Advance Angle (AVCS) Table 2 Intelligent",AVCSTable2i);
 DEFNEW3D("Intake Cam Advance Angle (AVCS) Table 1 Sport",AVCSTable1s);
@@ -507,7 +507,7 @@ DEFNEW1D("AntiLag Throttle Learning Denominator - RPM",ThrottleRPMDenom);
 DEFNEW1D("AntiLag Throttle Learning Multiplier - Boost",ThrottleBoostMult);
 
 #if MPG_HACKS
-DEFNEW2D("Front Oxygen Sensor Scaling Lean Cruise",O2SensorScalingMPGTable);
+//DEFNEW2D("Front Oxygen Sensor Scaling Lean Cruise",O2SensorScalingMPGTable);
 #endif
 #endif
 

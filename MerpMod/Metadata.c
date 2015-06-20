@@ -529,6 +529,7 @@ const MetaReplace WGDCHook METADATA =
 		name: STR(Timing Pull3D Hook)
 	};
 #endif
+#endif
 
 #if POLF_HACKS 
 //////////////////////
@@ -896,7 +897,7 @@ const MetaReplace WGDCHook METADATA =
 //////////////////////
 
 #if SSM_HACKS
-
+/*
 	const MetaReplace SSMHackHook1 METADATA =
 	{
 		op: OpReplace4Bytes,
@@ -905,7 +906,6 @@ const MetaReplace WGDCHook METADATA =
 		newval: (int)SSMHack1,
 		name: STR(SSM Spot 1 Hack)
 	};
-/*
 	const MetaReplace SSMHackHook2 METADATA =
 	{
 		op: OpReplace4Bytes,

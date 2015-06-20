@@ -55,12 +55,21 @@
 #define PrimaryOEMPolfTable tPolf
 #elif defined(tPolfKcaAlt) //TODO FIX THIS FOR NEWER CARS!!!!!
 #define PrimaryOEMPolfTable tPolfKcaAlt
+#elif defined(tPolfKcaBHi)
+#define PrimaryOEMPolfTable tPolfKcaBHi
+
 #endif
 
 #ifdef tBaseTiming
 #define PrimaryOEMTimingTable tBaseTiming
 #elif defined(tBaseTimingPNonCruise) //TODO FIX THIS FOR NEWER CARS!!!!!
 #define PrimaryOEMTimingTable tBaseTimingPNonCruise
+#elif defined(tBaseTimingKCAHi)
+#define PrimaryOEMTimingTable tBaseTimingKCAHi
+#endif
+
+#ifdef tBaseTimingIdleOverSpeed
+#define tBaseTimingIdleInGearA tBaseTimingIdleOverSpeed
 #endif
 
 #ifdef tTargetIdleSpeedA

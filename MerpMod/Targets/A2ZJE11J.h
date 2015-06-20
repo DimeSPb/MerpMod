@@ -1,4 +1,4 @@
-#define MOD_DATE 15.6.15.911
+#define MOD_DATE 15.6.20.1023
 
 #include "Switch.h"
 #define MOD_CONFIG Switch
@@ -61,13 +61,13 @@
 // Boost Hacks
 /////////////////////
 
-#define hPullTargetBoost (0x000151FC)
+#define hPullTargetBoost (0x0001520C)
 #define hTableTargetBoostKcaAlt (0x00015224)
 #define tTargetBoostKcaAlt (0x00079c3c)
 #define tTargetBoostKcaBHi (0x00079E10)
 #define tTargetBoostKcaBLo (0x00079DF4)
-#define hTableTargetBoostBHi (0x00015220)
-#define hTableTargetBoostBLo (0x0001521C)
+#define hTableTargetBoostKcaBHi (0x00015220)
+#define hTableTargetBoostKcaBLo (0x0001521C)
 
 /////////////////////
 // WGDC Hacks
@@ -130,7 +130,7 @@
 // Flags-Signals
 /////////////////////
 
-#define pCruiseMasterFlags ((unsigned char*)0xFFFF4C18)	NEED TO SCAN
+#define pCruiseMasterFlags ((unsigned char*)0xFFFF4C18)//	NEED TO SCAN
 #define CruiseMasterBitMask ((unsigned char)0x01)
 #define pResumeFlags ((unsigned char*)0xFFFF4C18)
 #define ResumeBitMask ((unsigned char)0x04)
@@ -140,12 +140,12 @@
 #define BrakeBitMask ((unsigned char)0x08)
 #define pClutchFlags ((unsigned char*)0xFFFF5049)
 #define ClutchBitMask ((unsigned char)0x80)
-#define pIdleFlags ((unsigned char*)0xFFFF4FC4)			NEED TO SCAN
+#define pIdleFlags ((unsigned char*)0xFFFF4FC4)	//		NEED TO SCAN
 #define IdleBitMask ((unsigned char)0x80)
-#define pNeutralFlags ((unsigned char*)0xFFFF5047)		Need to SCAN
+#define pNeutralFlags ((unsigned char*)0xFFFF5047)	//	Need to SCAN
 #define NeutralBitMask ((unsigned char)0x02)
 #define pDefoggerFlags ((unsigned char*)0xFFFF5047)
-#define DefoggerBitMask ((unsigned char)0x80)			Need to SCAN
+#define DefoggerBitMask ((unsigned char)0x80)		//	Need to SCAN
 #define pClosedLoopFlags ((unsigned char*)0xFFFF6B79)
 //8 = Closed Loop (normal)]  [10 = Open Loop (normal)]  [7 = Open Loop due insufficient coolant temp]  [14 = Open Loop due to system failure].
 
@@ -196,7 +196,7 @@
 #define tO2SensorScaling (0x0007BE6C)
 #define hTableO2SensorScaling (0x0000F3E0)
 #define pAFSensor1Current ((float*)0xFFFF4A4C)
-#define hOpenLoopAFRmin (0x000C5E2C)
+#define hOpenLoopAFRmin (0x00029F90)
 #define dOpenLoopAFRmin (0x000C5E2C)
 ////#define hTargetTPSBandPass (0x000BE73C)
 #define sBandPass (0x00002480)
@@ -231,3 +231,4 @@
 #define pMemoryResetLimit (0xFFFFBFFB)
 #define hMemoryResetLimit (0x000110D8)
 #define sMemorySoftReset (0x00049B34)
+

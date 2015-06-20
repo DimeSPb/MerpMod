@@ -127,7 +127,7 @@ void IdleTimingHack()
 		}
 	else
 		{
-			BaseTimingIdle = Pull2DHooked((void*)tBaseTimingIdleInGearA, *pCoolantTemp);
+			BaseTimingIdle = Pull2DHooked((void*)tBaseTimingIdleInGearA, *pEngineSpeed);
 		}
 
 	pRamVariables->BaseTimingIdle = BaseTimingIdle;

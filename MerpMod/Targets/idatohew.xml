@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <idatohew>
   <defines>
 
@@ -307,6 +307,16 @@
         <define name="pKcaIam">
             <ida name="E_KNOCK_CORRECTION_ADVANCE_IAM_ONLYEXT_E40" />
         </define>
+<define name="pBaseTimingIdle"/>
+<define name="hPullBaseTimingIdle"/>
+<define name="hTableBaseTimingIdleInGearA"/>
+<define name="tBaseTimingIdleInGearA"/>
+<define name="hTableBaseTimingIdleInGearB"/>
+<define name="tBaseTimingIdleInGearB"/>
+<define name="hTableBaseTimingIdleNeutralB"/>
+<define name="tBaseTimingIdleNeutralB"/>
+<define name="hTableBaseTimingIdleNeutralA"/>
+<define name="tBaseTimingIdleNeutralA"/>
     </category>
 
     <category name="Spark Cut">
@@ -355,7 +365,26 @@
         <define name="ClutchBitMask" type="unsigned char">
             <ida name="CLUTCH_BITMASK" type="bitmask"/>
         </define>
-    </category>
+		<define name="pIdleFlags" type="unsigned char*">
+        	</define>
+        	<define name="IdleBitMask" type="unsigned char">
+        	</define>
+		<define name="pNeutralFlags" type="unsigned char*">
+        	</define>
+       	<define name="NeutralBitMask" type="unsigned char">
+		</define>
+		<define name="pDefoggerFlags" type="unsigned char*">
+		</define>
+		<define name="DefoggerBitMask" type="unsigned char">
+		</define>
+		<define name="pCruiseMasterFlags" type="unsigned char*">
+		</define>
+		<define name="CruiseMasterBitMask" type="unsigned char">
+		</define>
+		<define name="pClosedLoopFlags" type="unsigned char*">
+		</define>
+
+	</category>
 
     <category name="NonSpecific Engine params">
         <define name="pFbkc1" type="unsigned char*">
@@ -416,6 +445,76 @@
             <ida name="E_AF_SENSOR_1_RESISTANCE" priority="3"/>
         </define>
         <define name="pDeltaMap" type="float*"/>
+	<define name="pAcceleratorPedal" type="float*"/>
+	<define name="pTargetIdleSpeed" type="float*"/>
+	<define name="hPullTargetIdleSpeed"/>
+        <define name="hTableTargetIdleSpeedA"/>
+        <define name="tTargetIdleSpeedA"/>
+        <define name="hTableTargetIdleSpeedB"/>
+        <define name="tTargetIdleSpeedB"/>
+        <define name="hTableTargetIdleSpeedC"/>
+        <define name="tTargetIdleSpeedC"/>
+	  <define name="hPullIdleMapSelection"/>
+        <define name="pIdleMapSelection"/>
+		<define name="hPullRequestedTorqueA"/>
+		<define name="tRequestedTorqueA"/>
+		<define name="hTableRequestedTorqueA"/>
+	 	<define name="sFloatToShort"/>
+	 	<define name="sFloatToByte"/>
+		<define name="dEvapFuelComp"/>
+	 	<define name="pCPCDutyRatio"/>
+<define name="pAirPump"/>
+<define name="pFuelLevel"/>
+<define name="pSTFTs1"/>
+<define name="pSTFTsA"/>
+<define name="hLTFTLimitA1"/>
+<define name="hLTFTLimitB1"/>
+<define name="hLTFTLimitA2"/>
+<define name="hLTFTLimitB2"/>
+<define name="pAVCS"/>
+<define name="hPullAVCS"/>
+<define name="tAVCS"/>
+<define name="hTableAVCS"/>
+<define name="pO2SensorScaling"/>
+<define name="hPullO2SensorScaling"/>
+<define name="tO2SensorScaling"/>
+<define name="hTableO2SensorScaling"/>
+<define name="pAFSensor1Current"/>
+<define name="hOpenLoopAFRmin"/>
+<define name="dOpenLoopAFRmin"/>
+<define name="hSSMReplace1"/>
+<define name="hSSMReplace2"/>
+<define name="dSSMReplace"/>
+<define name="pBoostPressure"/>
+<define name="pThrottlePlateTarget"/>
+<define name="tTargetThrottlePlateA"/>
+<define name="hTableTargetThrottlePlateA"/>
+<define name="hSSMMainAcceleratorSensor"/>
+<define name="hMainAcceleratorSensor1"/>
+<define name="hMainAcceleratorSensor2"/>
+<define name="pMainAcceleratorSensor"/>
+<define name="hTargetTPSBandPass"/>
+<define name="sBandPass"/>
+<define name="sDutyCycleOut"/>
+<define name="hDutyCycleOut"/>
+<define name="hFuelCut"/>
+<define name="pFuelCut"/>
+<define name="pBoost"/>
+<define name="hPrepForSpark"/>
+<define name="sPrepForSpark"/>
+<define name="pCyl1SparkCut"/>
+<define name="pCyl2SparkCut"/>
+<define name="pCyl3SparkCut"/>
+<define name="pCyl4SparkCut"/>
+<define name="pTargetTPSIdle"/>
+<define name="hTargetTPSIdle"/>
+<define name="hAfterAD"/>
+<define name="sAfterAD"/>
+<define name="pPedalVoltage"/>
+<define name="pSubPedalVoltage"/>
+<define name="pTargetIdleAir"/>
+
+
     </category>
 
 
@@ -423,11 +522,12 @@
         <define name="pObdVinDirect" type="unsigned char*" />
     </category>
 
+
+
     <category name="New Definitions">
         <define name="dLoadSmoothingA"/>
         <define name="dLoadSmoothingB"/>
         <define name="dLoadSmoothingAlt"/>
-		<define name="dLoadSmoothingAlt2"/>
         <define name="dLoadSmoothingFinal"/>
     </category>
     
@@ -443,6 +543,9 @@
         </define>
         <define name="hMemoryResetLimit">
             <ida name="HOOK_MEMORY_RESET_LIMIT" />
+<define name="sMemorySoftReset"/>
+
+
         </define>
     </category>
   
@@ -469,8 +572,7 @@
       <subsection name="RomHole_BoostHackTables" />
       <subsection name="RomHole_TimingHackTables" />
       <subsection name="RomHole_MapSwitchTables" />
-	  <subsection name="RomHole_ProgModeTables" />
-	  <subsection name="RomHole_PortLoggerTables" />
+      <subsection name="RomHole_AntiLagTables" />
       <subsection name="RomHole_Vin" />
       <subsection name="RomHole_Code" />
       <subsection name="RomHole_Functions" />

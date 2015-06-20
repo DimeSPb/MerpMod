@@ -26,7 +26,7 @@ void DriveModeHack()
 		
 		if (pRamVariables->ALSModeWait == 1)
 			{
-				*pMemorizedCruiseSpeed = 0.00;//IMPLEMENT!
+//				*pMemorizedCruiseSpeed = 0.00;//IMPLEMENT!
 			}
 		else
 			{
@@ -107,7 +107,7 @@ void DriveModeHack()
 				AVCS = Pull3DHooked(&AVCSTable1i, *pEngineLoad, *pEngineSpeed);
 				if (DODMode == HackEnabled && pRamVariables->DriveMode < 3)
 					{
-						DisplacementOnDemand();
+//						DisplacementOnDemand();
 					}
 				else
 					{

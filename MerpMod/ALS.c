@@ -15,7 +15,7 @@
 
 #if ALS_HACKS
 
-float (*AfterPedalHack)() __attribute__ ((section ("RomHole_Functions"))) = (float(*)()) sPedalSub;
+//float (*AfterPedalHack)() __attribute__ ((section ("RomHole_Functions"))) = (float(*)()) sPedalSub;
 
 void AntiLag()
 {

@@ -18,8 +18,8 @@
 
 //Defines the function pointer to the existing WGDC Pull routine
 float (*WGDCHooked)() __attribute__ ((section ("RomHole_Functions"))) = (float(*)()) sWgdc;
-float (*DutyCycleOut)(int WGDCData) __attribute__ ((section ("RomHole_Functions"))) = (float(*)()) sDutyCycleOut;
-float (*DutyCycleOEM)() __attribute__ ((section ("RomHole_Functions"))) = (float(*)()) sDutyCycleOut;
+//float (*DutyCycleOut)(int WGDCData) __attribute__ ((section ("RomHole_Functions"))) = (float(*)()) sDutyCycleOut;
+//float (*DutyCycleOEM)() __attribute__ ((section ("RomHole_Functions"))) = (float(*)()) sDutyCycleOut;
 
 void WGDCHack()
 {

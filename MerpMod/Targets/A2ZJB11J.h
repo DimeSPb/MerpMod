@@ -21,8 +21,8 @@
 // Switch Hacks
 /////////////////////
 
-//#define pTGVLeftVoltage ((unsigned short*)0xFFFF5C0A)
-//#define pTGVRightVoltage ((unsigned short*)0xFFFF5C0C)
+#define pTGVLeftVoltage ((unsigned short*)0xFFFF2D2C)
+#define pTGVRightVoltage ((unsigned short*)0xFFFF2D2E)
 //#define sShortToFloat (0x00002594)
 
 /////////////////////
@@ -47,7 +47,7 @@
 /////////////////////
 
 #define dInjectorScaling ((float*)0x000C5BD0)
-//#define hInjectorScaling (0x0002B738)
+#define hInjectorScaling (0x00025884)
 
 
 /////////////////////
@@ -134,8 +134,8 @@
 // Flags-Signals
 /////////////////////
 
-//#define pCruiseMasterFlags ((unsigned char*)0xFFFF64B0)
-//#define CruiseMasterBitMask ((unsigned char)0x01)
+#define pCruiseMasterFlags ((unsigned char*)0xFFFF4C0C)
+#define CruiseMasterBitMask ((unsigned char)0x01)
 #define pResumeFlags ((unsigned char*)0xFFFF4C0C)
 #define ResumeBitMask ((unsigned char)0x04)
 #define pCoastFlags ((unsigned char*)0xFFFF4C0C)
@@ -144,12 +144,12 @@
 #define BrakeBitMask ((unsigned char)0x08)
 #define pClutchFlags ((unsigned char*)0xFFFF5039)
 #define ClutchBitMask ((unsigned char)0x80)
-//#define pIdleFlags ((unsigned char*)0xFFFF6946)
-//#define IdleBitMask ((unsigned char)0x80)
-//#define pNeutralFlags ((unsigned char*)0xFFFF69EF)
-//#define NeutralBitMask ((unsigned char)0x02)
-//#define pDefoggerFlags ((unsigned char*)0xFFFF69EF)
-//#define DefoggerBitMask ((unsigned char)0x20)
+#define pIdleFlags ((unsigned char*)0xFFFF4FB4)
+#define IdleBitMask ((unsigned char)0x80)
+#define pNeutralFlags ((unsigned char*)0xFFFF4FB4)
+#define NeutralBitMask ((unsigned char)0x02)
+#define pDefoggerFlags ((unsigned char*)0xFFFF5037)
+#define DefoggerBitMask ((unsigned char)0x80)
 //#define pClosedLoopFlags ((unsigned char*)0xFFFF9299)
 //8 = Closed Loop (normal)]  [10 = Open Loop (normal)]  [7 = Open Loop due insufficient coolant temp]  [14 = Open Loop due to system failure].
 
@@ -174,11 +174,11 @@
 #define pEngineLoad ((float*)0xFFFF4F48)
 #define pReqTorque ((float*)0xFFFF5AB4)
 #define pThrottlePlate ((float*)0xFFFF4E50)
-//#define pWgdc4 ((float*)0xFFFF63A0)
+#define pWgdc4 ((float*)0xFFFF4B9C)
 #define pCurrentGear ((unsigned char*)0xFFFF515D)
 #define pAf1Res ((float*)0xFFFF4A48)
 //#define pDeltaMap ((float*)0xFFFF668C)
-//#define pAcceleratorPedal ((float*)0xFFFF68E4)
+#define pAcceleratorPedal ((float*)0xFFFF4FA4)
 //#define pThrottlePlateTarget ((float*)0xFFFF7AE8)
 //#define tTargetThrottlePlateA (0x00096498)
 //#define hTableTargetThrottlePlateA (0x000BE734)
@@ -232,7 +232,7 @@
 ////#define sBasicMotions (0x0002495A)
 ////#define hBasicMotions (0x0002495A)
 //#define hFuelCut (0x00035BD0)
-//#define pFuelCut ((short*)0xFFFF6F74)
+#define pFuelCut ((short*)0xFFFF523C)
 //#define pBoost ((float*)0xFFFF669C)
 //#define hPrepForSpark (0x00006E0C)
 //#define sPrepForSpark (0x0000A458)
